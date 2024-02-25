@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+
+    // Function to delete the second node of the list
+    void deleteSecond() {
+        if (head != nullptr && head->next != nullptr) {
+            // Point to the node to be deleted
+            Node* toDelete = head->next;
+
+            // Redirect the next pointer of the first node to the third node
+            head->next = toDelete->next;
+
+            // Delete the second node
+            delete toDelete;
+        }
+    }
+
+    // Function to print the list
+    void printList() {
+        Node* temp = head;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    // Create a linked list
+    LinkedList list;
+    list.head = new Node(1);
+    list.head->next = new Node(2);
+    list.head->next->next = new Node(3);
+    list.head->next->next->next = new Node(4);
+
+    // Print original list
+    cout << "Original list:" << endl;
+    list.printList();
+
+    // Delete the second node
+    list.deleteSecond();
+
+    // Print list after deletion
+    cout << "List after deleting the second node:" << endl;
+    list.printList();
+
+    // Clean up dynamically allocated memory
+    Node* current = list.head;
+    while (current != nullptr) {
+        Node* nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+
+    return 0;
+}
